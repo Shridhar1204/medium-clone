@@ -1,0 +1,41 @@
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+dist/
+build/
+.cache/
+
+# Local environment files (secrets go here)
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+
+# Cloudflare Workers config (contains secrets)
+backend/wrangler.jsonc
+
+# Logs
+logs
+*.log
+pnpm-debug.log*
+lerna-debug.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE/editor specific
+.vscode/
+.idea/
+*.swp
+
+# TypeScript build outputs
+*.tsbuildinfo
+
+# Misc
+*.local
