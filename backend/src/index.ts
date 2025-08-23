@@ -14,10 +14,22 @@ const app = new Hono<{
   };
 }>();
 
-app.use(cors({
-  origin: "http://localhost:5173",   // frontend origin
-  credentials: true                  // allow cookies/authorization headers
-}));
+const allowedOrigins = [
+  "http://localhost:5173", // local dev
+  "https://medium-clone-frontend.vercel.app" // production (Vercel)
+]
+
+app.use(
+  "*",
+  cors({
+    origin: (origin) => {
+      if (!origin) return "*" // for server-to-server calls
+      if (allowedOrigins.includes(origin)) return origin
+      return "http://localhost:5173" // fallback
+    },
+    credentials: true,
+  })
+)
 app.route("/api/v1/user", userRouter);
 app.route("/api/v1/blog", blogRouter);
 
