@@ -26,7 +26,8 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
       const jwt = response.data.jwt;
       localStorage.setItem("token", jwt);
 
-      const user = response.data.user ?? { name: postInputs.name };
+      // FIX: Always use backend user object to avoid "Anonymous"
+      const user = response.data.user;
       localStorage.setItem("user", JSON.stringify(user));
 
       toast.success(
