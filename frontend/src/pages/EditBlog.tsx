@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { BACKEND_URL } from "../../config";
+import { toast } from "react-hot-toast"; // ✅ Import toast
 
 export default function EditBlog() {
   const { id } = useParams();
@@ -47,10 +48,10 @@ export default function EditBlog() {
         { headers: { Authorization: token } }
       );
 
-      alert("Blog Updated ✅");
+      toast.success("Blog Updated ✅"); // ✅ Updated alert
       navigate(`/blog/${id}`);
     } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to update blog");
+      toast.error(err.response?.data?.message || "Failed to update blog ❌"); // ✅ Updated alert
     }
   };
 

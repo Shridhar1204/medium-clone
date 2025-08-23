@@ -10,11 +10,14 @@
     "@prisma/client": "^6.13.0",
     "@prisma/extension-accelerate": "^2.0.2",
     "@shridhar1284/medium-zod": "^1.0.2",
+    "cloudinary": "^2.7.0",
     "hono": "^4.9.0",
+    "multer": "^2.0.2",
     "prisma": "^6.13.0",
     "zod": "^4.0.17"
   },
   "devDependencies": {
+    "@types/node": "^24.3.0",
     "wrangler": "^4.4.0"
   }
 }
