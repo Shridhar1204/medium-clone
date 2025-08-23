@@ -152,7 +152,7 @@ export const Blogs = () => {
 
               {/* Blog Posts */}
               <div className="space-y-8">
-                {blogs.map((blog, index) => (
+                {blogs.map((blog) => (
                   <article key={blog.id} className="border-b border-gray-100 pb-8 last:border-b-0">
                     {/* Author Info */}
                     <div className="flex items-center mb-4">
@@ -235,7 +235,7 @@ export const Blogs = () => {
               <div>
                 <h3 className="text-sm font-semibold text-gray-900 mb-4 uppercase tracking-wider">Staff Picks</h3>
                 <div className="space-y-4">
-                  {blogs.slice(0, 3).map((blog, index) => (
+                  {blogs.slice(0, 3).map((blog) => (
                     <div key={blog.id} className="flex items-start space-x-3">
                       <div className="w-6 h-6 bg-gray-900 rounded-full flex items-center justify-center flex-shrink-0">
                         <span className="text-white text-xs font-medium">
