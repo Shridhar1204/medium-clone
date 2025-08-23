@@ -42,12 +42,11 @@ export default function EditBlog() {
     if (e) e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      const res = await axios.put(
+      await axios.put(
         `${BACKEND_URL}/api/v1/blog`,
         { id: Number(id), title, content },
         { headers: { Authorization: token } }
       );
-
       toast.success("Blog Updated ✅"); // ✅ Updated alert
       navigate(`/blog/${id}`);
     } catch (err: any) {

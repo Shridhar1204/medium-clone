@@ -135,7 +135,7 @@ export default function MyBlogs() {
 
           {/* Stories List */}
           <div className="space-y-12">
-            {blogs.map((blog, index) => (
+            {blogs.map((blog) => (
               <article key={blog.id} className="group border-b border-gray-100 pb-12 last:border-b-0">
                 {/* Author Info */}
                 <div className="flex items-center mb-4">
