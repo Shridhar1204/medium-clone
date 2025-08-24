@@ -15,36 +15,24 @@ export const Appbar = () => {
 
 useEffect(() => {
   const updateUserName = () => {
-    console.log("=== APPBAR UPDATE DEBUG ===");
     const storedUser = localStorage.getItem("user");
-    console.log("Raw stored user:", storedUser);
-    
     if (storedUser) {
       try {
         const userObj = JSON.parse(storedUser);
-        console.log("Parsed user object:", userObj);
-        console.log("User object type:", typeof userObj);
-        console.log("User name from object:", userObj.name);
-        console.log("User name type:", typeof userObj.name);
-        
-        const finalName = userObj.name || "";
-        console.log("Final name to set:", finalName);
-        setUserName(finalName);
+        setUserName(userObj.name || "");
       } catch (e) {
         console.error("Failed to parse user from localStorage", e);
         setUserName("");
       }
     } else {
-      console.log("No stored user found");
       setUserName("");
     }
-    console.log("=== APPBAR UPDATE END ===");
   };
 
   // Run on mount
   updateUserName();
 
-  // Listen for our custom event
+  // Listen for our custom event instead of "storage"
   window.addEventListener("userUpdated", updateUserName);
 
   return () => window.removeEventListener("userUpdated", updateUserName);

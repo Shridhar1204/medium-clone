@@ -60,6 +60,7 @@ userRouter.post("/signin", async (c) => {
       message: "Inputs not correct",
     });
   }
+
   const prisma = new PrismaClient({
     datasourceUrl: c.env?.DATABASE_URL,
   }).$extends(withAccelerate());
@@ -78,7 +79,16 @@ userRouter.post("/signin", async (c) => {
     }
 
     const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
-    return c.json({ jwt });
+
+    // ✅ Return user object along with JWT
+    return c.json({
+      jwt,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
   } catch (e) {
     c.status(411);
     return c.text("Invalid");
