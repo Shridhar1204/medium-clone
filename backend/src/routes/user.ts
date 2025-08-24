@@ -78,14 +78,7 @@ userRouter.post("/signin", async (c) => {
     }
 
     const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
-    return c.json({
-      jwt,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-      },
-    });
+    return c.json({ jwt });
   } catch (e) {
     c.status(411);
     return c.text("Invalid");
