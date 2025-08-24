@@ -10,37 +10,37 @@ export const Appbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    const updateUserName = () => {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        try {
-          const userObj = JSON.parse(storedUser);
-          setUserName(userObj.name || "");
-        } catch (e) {
-          console.error("Failed to parse user from localStorage", e);
-          setUserName("");
-        }
-      } else {
+
+  
+
+useEffect(() => {
+  const updateUserName = () => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      try {
+        const userObj = JSON.parse(storedUser);
+        setUserName(userObj.name || "");
+      } catch (e) {
+        console.error("Failed to parse user from localStorage", e);
         setUserName("");
       }
-    };
+    } else {
+      setUserName("");
+    }
+  };
 
-    // Run on mount
-    updateUserName();
+  // Run on mount
+  updateUserName();
 
-    // Listen for storage changes (triggered from Auth)
-    window.addEventListener("storage", updateUserName);
+  // Listen for our custom event instead of "storage"
+  window.addEventListener("userUpdated", updateUserName);
 
-    return () => window.removeEventListener("storage", updateUserName);
-  }, []);
+  return () => window.removeEventListener("userUpdated", updateUserName);
+}, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setOpen(false);
       }
     };
@@ -61,10 +61,7 @@ export const Appbar = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link
-            to="/blogs"
-            className="text-2xl font-serif italic font-bold text-gray-900 hover:text-gray-700"
-          >
+          <Link to="/blogs" className="text-2xl font-serif italic font-bold text-gray-900 hover:text-gray-700">
             Medium
           </Link>
 
@@ -73,9 +70,7 @@ export const Appbar = () => {
             <Link
               to="/blogs"
               className={`text-sm font-medium transition-colors duration-200 ${
-                isActive("/blogs")
-                  ? "text-black underline underline-offset-4"
-                  : "text-gray-600 hover:text-black"
+                isActive("/blogs") ? "text-black underline underline-offset-4" : "text-gray-600 hover:text-black"
               }`}
             >
               Home
@@ -83,9 +78,7 @@ export const Appbar = () => {
             <Link
               to="/my-blogs"
               className={`text-sm font-medium transition-colors duration-200 ${
-                isActive("/my-blogs")
-                  ? "text-black underline underline-offset-4"
-                  : "text-gray-600 hover:text-black"
+                isActive("/my-blogs") ? "text-black underline underline-offset-4" : "text-gray-600 hover:text-black"
               }`}
             >
               Your stories
@@ -104,12 +97,7 @@ export const Appbar = () => {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
           </nav>
@@ -125,27 +113,14 @@ export const Appbar = () => {
 
             {/* Notifications */}
             <button className="hidden sm:block p-2 text-gray-600 hover:text-black transition-colors">
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 17h5l-5-5 5-5H6l5 5-5 5h5zm0 0v2a2 2 0 01-2 2H9a2 2 0 01-2-2v-2"
-                />
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5-5 5-5H6l5 5-5 5h5zm0 0v2a2 2 0 01-2 2H9a2 2 0 01-2-2v-2" />
               </svg>
             </button>
 
             {/* User Dropdown */}
             <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setOpen(!open)}
-                className="flex items-center"
-              >
+              <button onClick={() => setOpen(!open)} className="flex items-center">
                 <Avatar size="big" name={userName || "?"} />
               </button>
 
@@ -153,40 +128,22 @@ export const Appbar = () => {
                 <div className="absolute right-0 mt-3 w-60 bg-white rounded-lg shadow-lg border border-gray-200 py-2">
                   {/* User */}
                   <div className="px-4 py-3 border-b border-gray-100">
-                    <p className="text-sm font-semibold text-gray-900">
-                      {userName || "Anonymous"}
-                    </p>
+                    <p className="text-sm font-semibold text-gray-900">{userName || "Anonymous"}</p>
                     <p className="text-xs text-gray-500">Signed in</p>
                   </div>
 
                   {/* Menu */}
                   <div className="py-1">
-                    <Link
-                      to="/profile"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                      onClick={() => setOpen(false)}
-                    >
+                    <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setOpen(false)}>
                       Profile
                     </Link>
-                    <Link
-                      to="/my-blogs"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                      onClick={() => setOpen(false)}
-                    >
+                    <Link to="/my-blogs" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setOpen(false)}>
                       Your stories
                     </Link>
-                    <Link
-                      to="/bookmarks"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                      onClick={() => setOpen(false)}
-                    >
+                    <Link to="/bookmarks" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setOpen(false)}>
                       Reading list
                     </Link>
-                    <Link
-                      to="/settings"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
-                      onClick={() => setOpen(false)}
-                    >
+                    <Link to="/settings" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50" onClick={() => setOpen(false)}>
                       Settings
                     </Link>
                   </div>
@@ -211,18 +168,8 @@ export const Appbar = () => {
               className="md:hidden p-2 text-gray-600 hover:text-black"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
           </div>
@@ -231,25 +178,13 @@ export const Appbar = () => {
         {/* Mobile Menu */}
         {mobileMenuOpen && (
           <div className="md:hidden border-t border-gray-200 py-4 space-y-4">
-            <Link
-              to="/blogs"
-              className="block text-gray-600 hover:text-black"
-              onClick={() => setMobileMenuOpen(false)}
-            >
+            <Link to="/blogs" className="block text-gray-600 hover:text-black" onClick={() => setMobileMenuOpen(false)}>
               Home
             </Link>
-            <Link
-              to="/my-blogs"
-              className="block text-gray-600 hover:text-black"
-              onClick={() => setMobileMenuOpen(false)}
-            >
+            <Link to="/my-blogs" className="block text-gray-600 hover:text-black" onClick={() => setMobileMenuOpen(false)}>
               Your stories
             </Link>
-            <Link
-              to="/new-blog"
-              className="block text-gray-600 hover:text-black"
-              onClick={() => setMobileMenuOpen(false)}
-            >
+            <Link to="/new-blog" className="block text-gray-600 hover:text-black" onClick={() => setMobileMenuOpen(false)}>
               Write
             </Link>
           </div>

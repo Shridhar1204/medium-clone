@@ -30,7 +30,7 @@ export const Auth = ({ type }: { type: "signup" | "signin" }) => {
       localStorage.setItem("user", JSON.stringify(user));
 
       // Trigger Appbar to read updated user immediately
-      window.dispatchEvent(new Event("storage"));
+      window.dispatchEvent(new CustomEvent("userUpdated"));
 
       toast.success(
         `${type === "signup" ? "Signed up" : "Signed in"} successfully ✅`
